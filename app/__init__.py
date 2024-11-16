@@ -1,24 +1,31 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 
 from .config import Config
 
-app=Flask(__name__)
-app.config.from_object(Config)
-bcrypt = Bcrypt(app)
+
+bcrypt = Bcrypt()
+jwt = JWTManager()
 
 
 def create_app():
-    return
     app=Flask(__name__)
-    app.config.from_object(Config)
-      
     
-from app.user.views import user
-app.register_blueprint(user)
+    app.config.from_object(Config)
+    bcrypt.init_app(app)
+    jwt.init_app(app)
 
-from app.sensor.views import sensor
-app.register_blueprint(sensor)
+    #routes
+    from app.accounts import account
+    app.register_blueprint(account, url_prefix='/account')
 
-from app.main.views import main
-app.register_blueprint(main)
+    from app.sensor import sensor
+    app.register_blueprint(sensor, url_prefix='/sensor')
+
+    from app.main import main
+    app.register_blueprint(main)
+
+    from app.dashboard import dashboard
+    app.register_blueprint(dashboard, url_prefix='/dashboard')
+    return app
