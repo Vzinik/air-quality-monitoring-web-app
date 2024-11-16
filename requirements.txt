@@ -5,3 +5,5 @@ postgres
 requests
 flask-wtf
 flask-bcrypt
+email-validator
+flask-jwt-extended-4.6.0
