@@ -1,6 +1,4 @@
-from flask import Blueprint
-
-sensor = Blueprint('sensor', __name__)
+from . import sensor
 
 @sensor.route('/record', methods= ['POST'])
 def record():
