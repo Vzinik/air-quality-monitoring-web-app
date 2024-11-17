@@ -1,10 +1,9 @@
 from flask import (render_template,url_for, redirect,
                    flash, make_response)
-from app import bcrypt
 from flask_jwt_extended import create_access_token, create_refresh_token
 
 from . import account
-from app.accounts.utils import check_password
+from app.accounts.utils import check_password, hash_password
 from app.dal.user_client import is_user, create_user, get_user
 from app.accounts.forms import SignupForm, LoginForm
 
@@ -16,8 +15,8 @@ def signup():
         if is_user(form.email.data):
             flash("This email is already registered with another account.", "error")
             return render_template(url_for('user.signup'))
-        # hash password and put it in form password data#
-        user, response = create_user(form)
+        hash = hash_password(form.password.data)
+        user, response = create_user(form, hash)
         if response["status"] != "success":
             flash("An unexpected error occured. Please try again after some time", "error")
             return render_template('signup.html', title = 'signup', form = form)
@@ -36,7 +35,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = get_user(form.email.data)
-        if user and check_password(form.password.data, user.password_hash):
+        if user and check_password(user.password_hash, form.password.data):
             access_token = create_access_token(identity=form.email.data)
             refresh_token = create_refresh_token(identity=form.email.data)
             response = make_response(redirect(url_for('dashboard.home')))
