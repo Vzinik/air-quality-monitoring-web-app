@@ -3,10 +3,7 @@ def get_user(email):
 
 
 def create_user(form, password_hash):
-    if form.email.data=="a@a.com":  # Replace with your user creation logic
-        return form, {"status": "success", "message": "User created successfully!"}
-    else:
-        return None, {"status": "failure", "message": "Failed to create user."}
+    pass
 
 
 def confirm_account(form):
