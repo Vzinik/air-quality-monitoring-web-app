@@ -2,7 +2,7 @@ def get_user(email):
     return {"message": "created", "status" :" success"}
 
 
-def create_user(form):
+def create_user(form, password_hash):
     if form.email.data=="a@a.com":  # Replace with your user creation logic
         return form, {"status": "success", "message": "User created successfully!"}
     else:
