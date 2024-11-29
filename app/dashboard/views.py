@@ -1,8 +1,8 @@
-from flask import render_template, request
+from flask import render_template, request, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from  . import dashboard
-from app.dal.user_client import get_device
+from app.dal.user_client import get_devices
 from app.dal.sensor_client import get_sensor_data
 
 
@@ -10,12 +10,15 @@ from app.dal.sensor_client import get_sensor_data
 @jwt_required
 def home():
     current_user_id = get_jwt_identity()
-    devices = get_device(current_user_id)
-    return render_template("dashboard.html", devices=devices)
+    devices = get_devices(current_user_id)
+    http_response = make_response(render_template("dashboard.html", devices=devices))
+    return http_response
 
 
+@jwt_required
 @dashboard.route('/data', methods=['GET'])
 def sensor_data():
     device_id = request.args.get('id')
     data = get_sensor_data(device_id)
-    return render_template("sensor_readings.html")
+    http_reponse = make_response(render_template("sensor_readings.html", data=data))
+    return http_reponse
