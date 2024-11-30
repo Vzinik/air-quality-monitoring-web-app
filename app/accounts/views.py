@@ -45,7 +45,7 @@ def signup():
         http_response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True)
         return http_response
     http_response = make_response(render_template('signup.html', title = 'signup', form = form))    
-
+    return http_response
 
 @account.route('/login/', methods = ['GET', 'POST'])
 def login():
@@ -63,8 +63,8 @@ def login():
             http_response.set_cookie('access_token', access_token, httponly=True, secure=True)
             http_response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True)
             return http_response
-    else:
-        flash("invalid email or password", "error")
+        else:
+            flash("invalid email or password", "error")
     http_response = make_response(render_template('login.html', title='register', form=form))
     return http_response
 
