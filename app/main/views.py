@@ -5,3 +5,4 @@ from . import main
 @main.route('/')
 def home():
     http_response = make_response(render_template('home.html', title= 'home'))
+    return http_response
