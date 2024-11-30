@@ -1,28 +1,19 @@
 def get_user(email):
-    return {"message": "created", "status" :" success"}
+    return user, {"message": "created", "status" :" success"}
 
 
 def create_user(form, password_hash):
     pass
-
-
-def confirm_account(form):
-    user=get_user(form.email.data)
-    if user is not None and check_password(form.password.data, user.password):
-        return user, {"status": "success", "message": "account found"}
-    else:    
-        return None, {"status": "failure", "message":"Invalid username or  password"}
     
 
-def is_user(email):
+def is_user_already_exist(email):
+    user, response = get_user(email=email)
+    if user:
+        return True
     return False
 
 
-def check_password(password, password_hash):
-    return True
-
-
-def get_device(user_id):
+def get_devices(user_id):
     # fetch devices 
     devices=[]
     return devices
