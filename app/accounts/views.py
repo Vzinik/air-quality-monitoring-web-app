@@ -17,7 +17,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 
 from . import account
 from app.accounts.utils import check_password, hash_password
-from app.dal.user_client import is_user_already, create_user, get_user
+from app.dal.user_client import is_user_already_exist, create_user, get_user
 from app.accounts.forms import SignupForm, LoginForm
 
 
@@ -25,7 +25,7 @@ from app.accounts.forms import SignupForm, LoginForm
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        if is_user_already(form.email.data):
+        if is_user_already_exist(form.email.data):
             flash("This email is already registered with another account.", "error")
             http_response = make_response(render_template(url_for('user.signup')))
             http_response.status_code = 200
