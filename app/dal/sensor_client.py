@@ -16,35 +16,33 @@
 #             "O2":"",
 #             "CO2":"",
 #          },
-#     ],
-#     "status":{
-#         "message" : "",
-#         "code": 200
-#     }
+#     ]
 # }
 import requests
 from flask import current_app, jsonify
 
-from utils import validate_device_user, validate_device_token
+from app.dal.utils import validate_device_user, validate_device_token
 
 
 def get_sensor_data(user_id, device_id):
     if validate_device_user(user_id, device_id):
         try:    
             url = current_app.config['URL_SENSOR_DATA']+f"/{device_id}"
-            response = requests.get(url=url)       
-            return response
+            response = requests.get(url=url)
+            if response.status_code == requests.codes.ok:       
+                return {'data' :response.json(), 'status':'success', 'status code': response.status_code}
         except Exception as e:
-            return {"data":[], "status":{"message": "Something went wrong", "code": 500}}
-    return {"data":[], "status":{"message": "Not found", "code": 404}}
+            return {'status': 'failed', 'status code': 500}
+    return {'status': 'failed', 'status code': 404}
 
 
 def insert_sensor_data(device_id:str, device_token:str, data:dict):
-    if validate_device_token(device_token):
+    if validate_device_token(device_token,device_id):
         try:
             url = current_app.config['URL_SENSOR_DATA']+f"/{device_id}"
-            response = requests.post(url=url, data =data)
-            return response
+            response = requests.post(url=url, json=data)
+            if response.status_code == requests.codes.ok:
+                return {'status':'success', 'status code': 200}
         except Exception as e:
-            return {"message": "Something went wrong", "status": 500}
-    return {"message": "Not found","status": 404}
+            return {'status': 'failed', 'status code': 500}
+    return {'status': 'failed', 'status code': 404}

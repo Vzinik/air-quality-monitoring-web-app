@@ -5,9 +5,9 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 class SignupForm(FlaskForm):
     first_name = StringField('First_name',
-                             validators=[DataRequired(), Length(max=20,message = "Chater limit reached")])
+                             validators=[DataRequired(), Length(max=20,message = "Character limit reached")])
     last_name = StringField('Last_name', 
-                            validators=[DataRequired(), Length(max=20,message = "Chater limit reached")])
+                            validators=[DataRequired(), Length(max=20,message = "Character limit reached")])
     email = StringField('Email', 
                        validators=[DataRequired(),Email()])
     device_id = StringField('Device ID',

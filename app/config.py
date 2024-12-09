@@ -28,3 +28,9 @@ class Config:
     SECRET_KEY="79f4795a886afd13fe3c0ae3fd6b486a"
     JWT_SECRET_KEY = "020edb75e072aad4564e404eb4095c94"
     #DATA_ACCESS_URL=os.environ['DATA_ACCESS_URL']
+
+    #dal urls
+    URL_SENSOR_DATA="http://192.168.0.106:3000/devices"
+    URL_DEVICE="http://192.168.0.106:3000/devices"
+    URL_GET_USER="http://192.168.0.106:3000/account"
+    URL_CREATE_USER="http://192.168.0.106:3000/account"
