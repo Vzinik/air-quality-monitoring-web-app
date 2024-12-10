@@ -38,8 +38,8 @@ def signup():
             http_response.status_code = 200
             return http_response
         flash("Account created successfully", "success")
-        access_token = create_access_token(identity=dal_response['user'].id)
-        refresh_token = create_refresh_token(identity=dal_response['user'].id)
+        access_token = create_access_token(identity=dal_response['user']['id'])
+        refresh_token = create_refresh_token(identity=dal_response['user']['id'])
         http_response = make_response(redirect(url_for('dashboard.home')))
         http_response.set_cookie('access_token', access_token, httponly=True, secure=True)
         http_response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True)
@@ -59,11 +59,11 @@ def login():
                 flash("An unexpected error occured. Please try again after some time", "error")
             http_response = make_response(render_template('login.html', title = 'register', form = form))
             return http_response
-        if dal_response['status'] == 'success' and check_password(dal_response['user'].password, form.password.data):
-            access_token = create_access_token(identity=dal_response['user'].id)
-            refresh_token = create_refresh_token(identity=dal_response['user'].id)
+        if dal_response['status'] == 'success' and check_password(dal_response['user']['password'], form.password.data):
+            access_token = create_access_token(identity=dal_response['user']['id'])
+            refresh_token = create_refresh_token(identity=dal_response['user']['id'])
             http_response = make_response(redirect(url_for('dashboard.home')))
-            http_response.set_cookie('access_token', access_token, httponly=True, secure=True)
+            http_response.set_cookie('access_token_cookie', access_token, httponly=True, secure=True)
             http_response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True)
             return http_response
         else:
