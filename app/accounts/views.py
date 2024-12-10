@@ -8,7 +8,7 @@
 # post method - calls get_user which returns user object and dal_response which contains a status and a message
 # 
 # --logout--
-# removes the hwt
+# removes the jwt
 
 from flask import (render_template,url_for, redirect,
                    flash, make_response)
@@ -51,16 +51,16 @@ def signup():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user, dal_response = get_user(form.email.data)
+        dal_response = get_user(form.email.data)
         if dal_response["status"] != "success":
             flash("An unexpected error occured. Please try again after some time", "error")
             http_response = make_response(render_template('login.html', title = 'register', form = form))
             return http_response
-        if user and check_password(user.password_hash, form.password.data):
+        if dal_response['user'] and check_password(dal_response['user']['password'], form.password.data):
             access_token = create_access_token(identity=form.email.data)
             refresh_token = create_refresh_token(identity=form.email.data)
             http_response = make_response(redirect(url_for('dashboard.home')))
-            http_response.set_cookie('access_token', access_token, httponly=True, secure=True)
+            http_response.set_cookie('access_token_cookie', access_token, httponly=True, secure=True)
             http_response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True)
             return http_response
         else:

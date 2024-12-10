@@ -7,15 +7,16 @@ from app.dal.sensor_client import get_sensor_data
 
 
 @dashboard.route('/', methods=['GET', 'POST'])
-@jwt_required
+@jwt_required()
 def home():
     current_user_id = get_jwt_identity()
     devices = get_devices(current_user_id)
+    #devices= [{'device_id': 123},{'device_id': 123}]
     http_response = make_response(render_template("dashboard.html", devices=devices))
     return http_response
 
 
-@jwt_required
+@jwt_required()
 @dashboard.route('/data', methods=['GET'])
 def sensor_data():
     device_id = request.args.get('id')

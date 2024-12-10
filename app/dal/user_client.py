@@ -1,9 +1,10 @@
 def get_user(email):
-    return user, {"message": "created", "status" :" success"}
+    return {'user': {'password': '123456'}, 'message': 'created', 'status' : 'success'}
 
 
 def create_user(form, password_hash):
-    pass
+    print(form)
+    return {'password': '123456','id': 123}, {"message": "created", "status" :" success"}
     
 
 def is_user_already_exist(email):
@@ -15,5 +16,5 @@ def is_user_already_exist(email):
 
 def get_devices(user_id):
     # fetch devices 
-    devices=[]
+    devices=[{'device_id':'4455'}]
     return devices

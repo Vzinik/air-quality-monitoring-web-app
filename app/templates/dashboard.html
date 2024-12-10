@@ -8,8 +8,7 @@
 <ul>
     {% for device in devices %}
     <li>
-        <a href="{{url_for('dashboard.sensor_data')}}?id={{ device.device_id }}">
-            {{ device.device_id }}
+            device id: {{ device.device_id }}
         </a>
     </li>
     {% endfor %}

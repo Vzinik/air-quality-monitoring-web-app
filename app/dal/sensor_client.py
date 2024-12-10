@@ -25,7 +25,7 @@
 import requests
 from flask import current_app, jsonify
 
-from utils import validate_device_user, validate_device_token
+from app.dal.utils import validate_device_user, validate_device_token
 
 
 def get_sensor_data(user_id, device_id):
