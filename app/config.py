@@ -26,7 +26,6 @@ class Config:
     POSTGRES_PASSWORD='POSTGRES_PASSWORD'
     POSTGRES_USERNAME='POSTGRES_USERNAME'
     SECRET_KEY="79f4795a886afd13fe3c0ae3fd6b486a"
-    JWT_SECRET_KEY = "020edb75e072aad4564e404eb4095c94"
     #DATA_ACCESS_URL=os.environ['DATA_ACCESS_URL']
 
     #dal urls
@@ -34,3 +33,12 @@ class Config:
     URL_DEVICE="http://192.168.0.106:3000/devices"
     URL_GET_USER="http://192.168.0.106:3000/account"
     URL_CREATE_USER="http://192.168.0.106:3000/account"
+
+
+    JWT_SECRET_KEY = "020edb75e072aad4564e404eb4095c94"
+    JWT_TOKEN_LOCATION = ['cookies']  # Store JWT tokens in cookies
+    JWT_COOKIE_SECURE = True  # Secure cookies; requires HTTPS
+    JWT_ACCESS_COOKIE_PATH = '/'  # Path for access token cookie
+    JWT_REFRESH_COOKIE_PATH = '/refresh'  # Path for refresh token cookie
+    JWT_COOKIE_CSRF_PROTECT = False  # Set to True if enabling CSRF protection
+    JWT_COOKIE_SAMESITE = 'Strict'  # SameSite policy for cookies
