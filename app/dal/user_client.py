@@ -2,10 +2,10 @@ import requests
 from flask import current_app
 
 def get_user(email):
-    url = current_app.confg['URL_GET_USER']
+    url = current_app.config['URL_DAL_API']+ f"/{current_app.config['DAL_ROUTE_ACCOUNT']}"
     payload ={'email': email}
     try:
-        response = requests.post(url=url, params=payload)
+        response = requests.get(url=url, params=payload)
         if response.status_code == requests.codes.ok:
             return {'user': response.json(), 'status':'success', 'status code': response.status_code}
         return {'status': 'failed', 'status code': response.status_code}
@@ -15,7 +15,7 @@ def get_user(email):
 
 
 def create_user(form, hashed_password):
-    url= current_app.config['URL_CREATE_USER']
+    url = current_app.config['URL_DAL_API']+ f"/{current_app.config['DAL_ROUTE_ACCOUNT']}"
     payload = {
         "first_name": form.first_name.data,
         "last_name": form.last_name.data,
@@ -47,8 +47,8 @@ def get_devices(user_id):
     #       {"device_id":"","device_name":""},
     #       {"device_id":"","device_name":""}
     # ]}
-    url = current_app.config['URL_DEVICE'] 
-    payload = {'user_id': user_id}    
+    url = current_app.config['URL_DAL_API']+ f"/{current_app.config['DAL_ROUTE_DEVICES']}"
+    payload = {'id': user_id}    
     try:
         response = requests.get(url=url, params=payload)
         if response.status_code==requests.codes.ok:

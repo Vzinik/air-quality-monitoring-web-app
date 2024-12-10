@@ -19,7 +19,7 @@
 #     ]
 # }
 import requests
-from flask import current_app, jsonify
+from flask import current_app
 
 from app.dal.utils import validate_device_user, validate_device_token
 
@@ -27,7 +27,7 @@ from app.dal.utils import validate_device_user, validate_device_token
 def get_sensor_data(user_id, device_id):
     if validate_device_user(user_id, device_id):
         try:    
-            url = current_app.config['URL_SENSOR_DATA']+f"/{device_id}"
+            url = current_app.config['URL_DAL_API']+F"/{current_app.config['DAL_URL_DEVICES']}"+f"/{device_id}"
             response = requests.get(url=url)
             if response.status_code == requests.codes.ok:       
                 return {'data' :response.json(), 'status':'success', 'status code': response.status_code}
@@ -39,7 +39,7 @@ def get_sensor_data(user_id, device_id):
 def insert_sensor_data(device_id:str, device_token:str, data:dict):
     if validate_device_token(device_token,device_id):
         try:
-            url = current_app.config['URL_SENSOR_DATA']+f"/{device_id}"
+            url = current_app.config['URL_DAL_API']+f"/{current_app.config['DAL_URL_DEVICES']}"+f"/{device_id}"
             response = requests.post(url=url, json=data)
             if response.status_code == requests.codes.ok:
                 return {'status':'success', 'status code': 200}
