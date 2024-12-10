@@ -30,16 +30,16 @@ def signup():
             http_response = make_response(render_template(url_for('user.signup')))
             http_response.status_code = 200
             return http_response
-        hash = hash_password(form.password.data)
-        user, dal_response = create_user(form, hash)
-        if dal_response["status"] != "success":
+        hashed_password = hash_password(form.password.data)
+        dal_response = create_user(form, hashed_password=hashed_password)
+        if  dal_response['status'] == 'failed':
             flash("An unexpected error occured. Please try again after some time", "error")
             http_response = make_response(render_template('signup.html', title = 'signup', form = form))
             http_response.status_code = 200
             return http_response
         flash("Account created successfully", "success")
-        access_token = create_access_token(identity=user.id)
-        refresh_token = create_refresh_token(identity=user.id)
+        access_token = create_access_token(identity=dal_response['user']['id'])
+        refresh_token = create_refresh_token(identity=dal_response['user']['id'])
         http_response = make_response(redirect(url_for('dashboard.home')))
         http_response.set_cookie('access_token', access_token, httponly=True, secure=True)
         http_response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True)
@@ -52,13 +52,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         dal_response = get_user(form.email.data)
-        if dal_response["status"] != "success":
-            flash("An unexpected error occured. Please try again after some time", "error")
+        if dal_response['status'] == 'failed':
+            if dal_response['status code'] >= 400 and dal_response['status code'] < 500:
+                flash("invalid email or password", "error")
+            if dal_response['status code'] == 500:
+                flash("An unexpected error occured. Please try again after some time", "error")
             http_response = make_response(render_template('login.html', title = 'register', form = form))
             return http_response
-        if dal_response['user'] and check_password(dal_response['user']['password'], form.password.data):
-            access_token = create_access_token(identity=form.email.data)
-            refresh_token = create_refresh_token(identity=form.email.data)
+        if dal_response['status'] == 'success' and check_password(dal_response['user']['password'], form.password.data):
+            access_token = create_access_token(identity=dal_response['user']['id'])
+            refresh_token = create_refresh_token(identity=dal_response['user']['id'])
             http_response = make_response(redirect(url_for('dashboard.home')))
             http_response.set_cookie('access_token_cookie', access_token, httponly=True, secure=True)
             http_response.set_cookie('refresh_token', refresh_token, httponly=True, secure=True)

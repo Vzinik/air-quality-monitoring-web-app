@@ -1,35 +1,15 @@
 import os
 
 class Config:
-    '''
-    #environment variables
-    MONGO_USERNAME=os.environ['MONGO_USERNAME']
-    MONGO_PASSWORD=os.environ['MONGO_PASSWORD']
-    MONGO_PORT=os.environ['MONGO_PORT']
-    MONGO_DB=os.environ['MONGO_DB']
-    USER_COLLECTION=os.environ['USER_COLLECTION']
-    DATA_COLLECTION=os.environ['DATA_COLLECTION']
-    MONGO_HOST=os.environ['MONGO_HOST']
-
-    POSTGRES_PASSWORD=os.environ['POSTGRES_PASSWORD']
-    POSTGRES_USERNAME=os.environ['POSTGRES_USERNAME']
-'''
-
-    MONGO_USERNAME='MONGO_USERNAME'
-    MONGO_PASSWORD='MONGO_PASSWORD'
-    MONGO_PORT='MONGO_PORT'
-    MONGO_DB='MONGO_DB'
-    USER_COLLECTION='USER_COLLECTION'
-    DATA_COLLECTION='DATA_COLLECTION'
-    MONGO_HOST='MONGO_HOST'
-
-    POSTGRES_PASSWORD='POSTGRES_PASSWORD'
-    POSTGRES_USERNAME='POSTGRES_USERNAME'
     SECRET_KEY="79f4795a886afd13fe3c0ae3fd6b486a"
+
+    #dal urls
+    URL_DAL_API= "https://b713105a-dcb9-4bdc-b39d-d7c333de4a7c.mock.pstmn.io"
+    DAL_ROUTE_DEVICES ="devices"
+    DAL_ROUTE_ACCOUNT= "account"
+
+    #jwt key
     JWT_SECRET_KEY = "020edb75e072aad4564e404eb4095c94"
-    #DATA_ACCESS_URL=os.environ['DATA_ACCESS_URL']
-
-
     JWT_TOKEN_LOCATION = ['cookies']  # Store JWT tokens in cookies
     JWT_COOKIE_SECURE = True  # Secure cookies; requires HTTPS
     JWT_ACCESS_COOKIE_PATH = '/'  # Path for access token cookie

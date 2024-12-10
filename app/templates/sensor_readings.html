@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <table>
+        <thead>
+            <th>temperature</th>
+            <th>Pressure</th>
+            <th>Humidity</th>
+            <th>Carbondioxide</th>
+            <th>Oxygen</th>
+            <th>Gas resistance</th>
+        </thead>
+        <tbody>
+            {% for entry in data %}
+            <tr>
+                <td>{{ entry.temperature }}</td>
+                <td>{{ entry.pressure }}</td>
+                <td>{{ entry.humidity }}</td>
+                <td>{{ entry.CO2 }}</td>
+                <td>{{ entry.O2 }}</td>
+                <td>{{ entry.gas }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
