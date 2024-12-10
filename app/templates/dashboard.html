@@ -5,8 +5,13 @@
 <div>
 <h1>Dashboard</h1>
 <br>
+<h2> devices</h2>
 <ul>
-    
+{% for device in devices %}
+    <li><p>id: {{ device.id }}</p>
+        <p>device name: {{ device.name }}</p>
+    </li>
+{% endfor %}    
 </ul>
 </div>
 
